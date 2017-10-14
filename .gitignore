@@ -2,6 +2,8 @@ pom.xml
 pom.xml.asc
 *.jar
 *.class
+*.o
+*.hi
 /lib/
 /classes/
 /target/
