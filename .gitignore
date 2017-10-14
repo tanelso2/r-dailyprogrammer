@@ -4,6 +4,8 @@ pom.xml.asc
 *.class
 *.o
 *.hi
+*.iml
+.idea/
 /lib/
 /classes/
 /target/
