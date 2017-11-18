@@ -32,18 +32,31 @@
 
 (defn- remove-overlaps
   [pair full-list]
-  (filter #(not (overlapping? pair %)) full-list))
+  (filter
+    (partial (complement overlapping?) pair)
+    full-list))
+
+(defn days-reserved
+  [pairs-list]
+  (reduce +
+          (for [[start end] pairs-list]
+            (- end start))))
 
 (defn- get-most-rec
-  [constructed-list possible-pairs]
+  [constructed-list possible-pairs most-func]
   (if (empty? possible-pairs)
     constructed-list
-    (apply max-key count
+    (apply max-key most-func
            (for [pair possible-pairs]
              (get-most-rec
                (conj constructed-list pair)
-               (remove-overlaps pair possible-pairs))))))
+               (remove-overlaps pair possible-pairs)
+               most-func)))))
 
-(defn get-most
+(defn get-most-reservations
   [pairs]
-  (get-most-rec [] pairs))
+  (get-most-rec [] pairs count))
+
+(defn get-most-days-reserved
+  [pairs]
+  (get-most-rec [] pairs days-reserved))
